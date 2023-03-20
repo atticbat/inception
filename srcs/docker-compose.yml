@@ -1,0 +1,76 @@
+
+networks:
+  backend:
+    name: backend
+    driver: bridge
+  frontend:
+    name: frontend
+    driver: bridge
+  
+services:
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    networks:
+      - frontend 
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./requirements/logs/nginx_access.log:/var/log/nginx/nginx_access.log
+      - ./requirements/logs/nginx_error.log:/var/log/nginx/nginx_error.log
+      - ./requirements/wp_volume:/var/www/html/wordpress
+    depends_on:
+      - wordpress
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    networks:
+      - frontend
+      - backend
+    volumes:
+      - ./requirements/wp_volume:/var/www/html/wordpress
+    environment:
+      MYSQL_HOST:       ${MYSQL_HOST}
+      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+      WP_DATABASE_USR:  ${WP_DATABASE_USR}
+      WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+      DOMAIN_NAME:      ${DOMAIN_NAME}
+      WP_TITLE:         ${WP_TITLE}
+      WP_ADMIN_USR:     ${WP_ADMIN_USR}
+      WP_ADMIN_PWD:     ${WP_ADMIN_PWD}
+      WP_ADMIN_EMAIL:   ${WP_ADMIN_EMAIL}
+      WP_USR:           ${WP_USR}
+      WP_PWD:           ${WP_PWD}
+      WP_EMAIL:         ${WP_EMAIL}
+    depends_on:
+      - mariadb
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    networks:
+      - backend
+    volumes:
+      - ./requirements/logs/mariadb_general.log:/var/log/mysql/general.log
+      - ./requirements/db_volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
+      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+      WP_DATABASE_USR:  ${WP_DATABASE_USR}
+      WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+
+# volumes:
+  # db_data:
+  #   name: db_data
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: ./requirements/db_volume
+  #     o: bind
+  # wp_data:
+  #   name: wp_data
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: ./requirements/wp_volume
+  #     o: bind
