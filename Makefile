@@ -1,4 +1,6 @@
 all: clean
+	sh ./srcs/requirements/tools/init_env.sh
+	sh ./srcs/requirements/tools/init_ssl.sh
 	docker-compose -f ./srcs/docker-compose.yml up --build
 
 stop:
