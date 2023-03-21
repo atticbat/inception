@@ -10,32 +10,17 @@ fi
 if [ ! -d "/var/lib/mysql/mysql" ]; then
 	
 	chown -R mysql:mysql /var/lib/mysql
+	chown mysql:mysql /tmp/init.sql
 
 	# init database
 	mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm
 
-	tfile=`mktemp`
-	if [ ! -f "$tfile" ]; then
-		return 1
-	fi
-
-	# https://stackoverflow.com/questions/10299148/mysql-error-1045-28000-access-denied-for-user-billlocalhost-using-passw
-	cat << EOF > $tfile
-USE mysql;
-FLUSH PRIVILEGES;
-DELETE FROM	mysql.user WHERE User='';
-DROP DATABASE test;
-DELETE FROM mysql.db WHERE Db='test';
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PWD';
-CREATE DATABASE $WP_DATABASE_NAME CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE USER '$WP_DATABASE_USR'@'%' IDENTIFIED by '$WP_DATABASE_PWD';
-GRANT ALL PRIVILEGES ON $WP_DATABASE_NAME.* TO '$WP_DATABASE_USR'@'%';
-FLUSH PRIVILEGES;
-EOF
-	# run init.sql
-	/usr/bin/mysqld --user=mysql --bootstrap < $tfile
-	rm -f $tfile
+	sed -i "s/mysqlrootpwd/$MYSQL_ROOT_PWD/g" /tmp/init.sql
+	sed -i "s/wpdatabasename/$WP_DATABASE_NAME/g" /tmp/init.sql
+	sed -i "s/wpdatabaseusr/$WP_DATABASE_USR/g" /tmp/init.sql
+	sed -i "s/wpdatabasepwd/$WP_DATABASE_PWD/g" /tmp/init.sql
+	/usr/bin/mysqld --user=mysql --bootstrap < /tmp/init.sql
 fi
 
-exec /usr/bin/mysqld_safe --user=mysql --console --bind-address=0.0.0.0 --skip-networking=0 --general-log=1 --general-log-file=/var/log/mysql/general.log
+exec /usr/bin/mysqld_safe --user=mysql --console --bind-address=0.0.0.0 --skip-networking=0 \
+	--general-log=1 --general-log-file=/var/log/mysql/general.log

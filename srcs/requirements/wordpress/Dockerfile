@@ -18,9 +18,9 @@ COPY ./conf/www.conf /etc/php81/php-fpm.d/www.conf
 COPY ./conf/php-fpm.conf /etc/php/php-fpm.conf
 COPY ./tools/entrypoint.sh /tmp/entrypoint.sh
 COPY ./tools/index.html /tmp/index.html
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN chmod +x wp-cli.phar
-RUN cp wp-cli.phar /usr/bin/wp
+RUN wget https://github.com/wp-cli/wp-cli/releases/download/v2.7.1/wp-cli-2.7.1.phar
+RUN chmod +x wp-cli-2.7.1.phar
+RUN cp wp-cli-2.7.1.phar /usr/bin/wp
 WORKDIR /var/www/html/wordpress
 EXPOSE 9000
 
