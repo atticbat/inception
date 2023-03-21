@@ -10,7 +10,7 @@ clean: stop
 fclean: clean
 	rm -rf ./srcs/requirements/db_volume
 	rm -rf ./srcs/requirements/wp_volume
-	rm -rf ./srcs/requirements/logs/*
+	rm ./srcs/requirements/logs/*
 	mkdir ./srcs/requirements/db_volume
 	mkdir ./srcs/requirements/wp_volume
 	touch ./srcs/requirements/logs/mariadb_general.log
