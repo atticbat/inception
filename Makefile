@@ -12,7 +12,7 @@ fclean: clean
 	rm -rf ./srcs/requirements/logs
 	docker system prune --all --force
 	docker volume rm db_volume wp_volume
-	rm -rf /home/atticbat/data/wordpress
-	rm -rf /home/atticbat/data/mysql
+	rm -rf /home/${SUDO_USER}/data/wordpress
+	rm -rf /home/${SUDO_USER}/data/mysql
 
 .PHONY: all clean fclean
