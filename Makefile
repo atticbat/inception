@@ -3,6 +3,7 @@ all: clean
 	sh ./srcs/requirements/tools/init_ssl.sh
 	sh ./srcs/requirements/tools/init_log.sh
 	sh ./srcs/requirements/tools/init_vol.sh
+	sh ./srcs/requirements/tools/init_hosts.sh
 	docker-compose -f ./srcs/docker-compose.yml up --build
 
 clean:
