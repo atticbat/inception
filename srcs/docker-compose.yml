@@ -19,7 +19,7 @@ services:
     volumes:
       - ./requirements/logs/nginx_access.log:/var/log/nginx/nginx_access.log
       - ./requirements/logs/nginx_error.log:/var/log/nginx/nginx_error.log
-      - ./requirements/wp_volume:/var/www/html/wordpress
+      - wp_volume:/var/www/html/wordpress
     depends_on:
       - wordpress
   wordpress:
@@ -29,7 +29,7 @@ services:
       - frontend
       - backend
     volumes:
-      - ./requirements/wp_volume:/var/www/html/wordpress
+      - wp_volume:/var/www/html/wordpress
     environment:
       MYSQL_HOST:       ${MYSQL_HOST}
       WP_DATABASE_NAME: ${WP_DATABASE_NAME}
@@ -52,25 +52,17 @@ services:
       - backend
     volumes:
       - ./requirements/logs/mariadb_general.log:/var/log/mysql/general.log
-      - ./requirements/db_volume:/var/lib/mysql
+      - db_volume:/var/lib/mysql
     environment:
       MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
       WP_DATABASE_NAME: ${WP_DATABASE_NAME}
       WP_DATABASE_USR:  ${WP_DATABASE_USR}
       WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
 
-# volumes:
-  # db_data:
-  #   name: db_data
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     device: ./requirements/db_volume
-  #     o: bind
-  # wp_data:
-  #   name: wp_data
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     device: ./requirements/wp_volume
-  #     o: bind
+volumes:
+  db_volume:
+    name: db_volume
+    external: false
+  wp_volume:
+    name: wp_volume
+    external: false

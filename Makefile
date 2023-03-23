@@ -1,22 +1,15 @@
 all: clean
 	sh ./srcs/requirements/tools/init_env.sh
 	sh ./srcs/requirements/tools/init_ssl.sh
+	sh ./srcs/requirements/tools/init_log.sh
 	docker-compose -f ./srcs/docker-compose.yml up --build
 
-stop:
-	docker-compose -f ./srcs/docker-compose.yml down 
-
-clean: stop
-	docker system prune --all --force --volumes
+clean:
+	docker-compose -f ./srcs/docker-compose.yml down
 
 fclean: clean
-	rm -rf ./srcs/requirements/db_volume
-	rm -rf ./srcs/requirements/wp_volume
-	rm ./srcs/requirements/logs/*
-	mkdir ./srcs/requirements/db_volume
-	mkdir ./srcs/requirements/wp_volume
-	touch ./srcs/requirements/logs/mariadb_general.log
-	touch ./srcs/requirements/logs/nginx_access.log
-	touch ./srcs/requirements/logs/nginx_error.log
+	rm -rf ./srcs/requirements/logs
+	docker system prune --all --force
+	docker volume rm db_volume wp_volume
 
-.PHONY: all clean fclean stop
+.PHONY: all clean fclean
