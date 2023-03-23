@@ -1,32 +1,41 @@
+# Networks
 
 networks:
   backend:
     external: false
     name: backend
-    driver: overlay 
+    driver: bridge
+
   frontend:
     external: false
     name: frontend
-    driver: overlay
+    driver: bridge
 
-secrets:
-  ssl_key:
-    external: true
-    name: ssl_key
-    file: ./requirements/nginx/tools/site.key
-  ssl_crt:
-    external: true
-    name: ssl_crt
-    file: ./requirements/nginx/tools/site.crt
+# Volumes
+
+volumes:
+  db_volume:
+    name: db_volume
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/atticbat/data/mysql
+      o: bind
+
+  wp_volume:
+    name: wp_volume
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/atticbat/data/wordpress
+      o: bind
+
+# Services
 
 services:
   nginx:
-    image: nginx
     container_name: nginx
     build: ./requirements/nginx
-    secrets:
-      - ssl_key
-      - ssl_crt
     networks:
       - frontend 
     ports:
@@ -38,8 +47,8 @@ services:
       - wp_volume:/var/www/html/wordpress
     depends_on:
       - wordpress
+
   wordpress:
-    image: wordpress
     container_name: wordpress
     build: ./requirements/wordpress
     networks:
@@ -62,8 +71,8 @@ services:
       WP_EMAIL:         ${WP_EMAIL}
     depends_on:
       - mariadb
+
   mariadb:
-    image: mariadb
     container_name: mariadb
     build: ./requirements/mariadb
     networks:
@@ -76,11 +85,3 @@ services:
       WP_DATABASE_NAME: ${WP_DATABASE_NAME}
       WP_DATABASE_USR:  ${WP_DATABASE_USR}
       WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
-
-volumes:
-  db_volume:
-    external: false
-    name: db_volume
-  wp_volume:
-    external: false
-    name: wp_volume
