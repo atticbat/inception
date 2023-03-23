@@ -19,7 +19,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/atticbat/data/mysql
+      device: /home/${SUDO_USER}/data/mysql
       o: bind
 
   wp_volume:
@@ -27,7 +27,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/atticbat/data/wordpress
+      device: /home/${SUDO_USER}/data/wordpress
       o: bind
 
 # Services
