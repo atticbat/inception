@@ -9,7 +9,6 @@ ARG MYSQL_ROOT_PWD \
     WP_DATABASE_NAME \
     WP_DATABASE_USR \
     WP_DATABASE_PWD
-RUN echo "top secret: $WP_DATABASE_PWD"
 #RUN mkdir -p /run/mysqld && \
 #	chown -R mysql:mysql /run/mysqld && \
 #    chown -R mysql:mysql /var/lib/mysql && \
