@@ -15,7 +15,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 	mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm
 
 	echo "HI"
-	echo $1
+	echo $MYSQL_ROOT_PWD
 	sed -i "s/mysqlrootpwd/$MYSQL_ROOT_PWD/g" /tmp/init.sql
 	sed -i "s/wpdatabasename/$WP_DATABASE_NAME/g" /tmp/init.sql
 	sed -i "s/wpdatabaseusr/$WP_DATABASE_USR/g" /tmp/init.sql
