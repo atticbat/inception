@@ -13,7 +13,7 @@ fclean: clean
 	rm -rf ./srcs/requirements/logs
 	docker system prune --all --force
 	docker volume rm db_volume wp_volume --force
-#	rm -rf /home/${SUDO_USER}/data/wordpress
-#	rm -rf /home/${SUDO_USER}/data/mysql
+	echo "\033[0;31m I'm about to remove your ~/data folder, if you have anything in there then don't type your sudo password :^) \033[0m"
+	sudo -k rm -rf /home/${USER}/data
 
 .PHONY: all clean fclean
