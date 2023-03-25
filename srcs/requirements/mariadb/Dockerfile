@@ -3,7 +3,7 @@ FROM alpine:3.17
 RUN apk update && apk upgrade && apk add --no-cache \
     mariadb mariadb-client
 
-COPY ./tools/entrypoint.sh /tmp/setup.sh
+COPY ./tools/setup.sh /tmp/setup.sh
 COPY ./tools/init.sql /tmp/init.sql
 RUN /bin/sh /tmp/setup.sh
 CMD [ "/usr/bin/mysqld_safe",  "--bind-address=0.0.0.0", \
