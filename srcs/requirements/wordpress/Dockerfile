@@ -13,13 +13,8 @@ RUN	apk update && apk upgrade && apk add --no-cache \
 		php81-pdo_sqlite php81-shmop php81-soap php81-sockets php81-sodium \
 		php81-sqlite3 php81-sysvsem php81-sysvshm php81-xsl
 
-RUN	adduser -S nginx &&	addgroup -S nginx
 COPY ./conf/www.conf /etc/php81/php-fpm.d/www.conf
 COPY ./conf/php-fpm.conf /etc/php/php-fpm.conf
 COPY ./tools/entrypoint.sh /tmp/entrypoint.sh
-RUN wget https://github.com/wp-cli/wp-cli/releases/download/v2.7.1/wp-cli-2.7.1.phar
-RUN chmod +x wp-cli-2.7.1.phar
-RUN cp wp-cli-2.7.1.phar /usr/bin/wp
-WORKDIR /var/www/html/wordpress
 
 ENTRYPOINT [ "/bin/sh", "/tmp/entrypoint.sh" ]

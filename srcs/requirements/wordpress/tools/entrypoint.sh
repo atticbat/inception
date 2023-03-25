@@ -1,9 +1,15 @@
 #!/bin/sh
 
-sleep 4
-while ! mariadb -h$MYSQL_HOST -u$WP_DATABASE_USR -p$WP_DATABASE_PWD $WP_DATABASE_NAME; do
-    sleep 1
-done
+adduser -S nginx &&	addgroup -S nginx
+wget https://github.com/wp-cli/wp-cli/releases/download/v2.7.1/wp-cli-2.7.1.phar
+chmod +x wp-cli-2.7.1.phar
+cp wp-cli-2.7.1.phar /usr/bin/wp
+cd /var/www/html/wordpress
+
+#sleep 4
+#while ! mariadb -h$MYSQL_HOST -u$WP_DATABASE_USR -p$WP_DATABASE_PWD $WP_DATABASE_NAME; do
+#    sleep 1
+#done
 
 if [ ! -f "./wp-config.php" ]; then
 
