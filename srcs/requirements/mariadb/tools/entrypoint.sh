@@ -19,7 +19,8 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 	sed -i "s/wpdatabaseusr/$WP_DATABASE_USR/g" /tmp/init.sql
 	sed -i "s/wpdatabasepwd/$WP_DATABASE_PWD/g" /tmp/init.sql
 	/usr/bin/mysqld --user=mysql --bootstrap < /tmp/init.sql
+	rm /tmp/init.sql
 fi
 
 exec /usr/bin/mysqld_safe --user=mysql --console --bind-address=0.0.0.0 --skip-networking=0 \
-	--general-log=1 --general-log-file=/var/log/mysql/general.log
+	--general-log=1 --general-log-file=/var/log/mysql/general.log --log-error=/var/log/mysql/error.log

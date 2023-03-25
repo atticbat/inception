@@ -19,5 +19,5 @@ else
     echo "Wordpress already downloaded"
 fi
 
-echo "Wordpress started on :9000"
+echo "Wordpress started on port 9000"
 exec /usr/sbin/php-fpm81 -F -R

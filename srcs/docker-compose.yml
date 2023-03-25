@@ -19,7 +19,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/${SUDO_USER}/data/mysql
+      device: /home/${USER}/data/mysql
       o: bind
 
   wp_volume:
@@ -27,7 +27,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/${SUDO_USER}/data/wordpress
+      device: /home/${USER}/data/wordpress
       o: bind
 
 # Services
@@ -39,7 +39,6 @@ services:
     networks:
       - frontend 
     ports:
-      - "80:80"
       - "443:443"
     volumes:
       - ./requirements/logs/nginx_access.log:/var/log/nginx/nginx_access.log
@@ -81,6 +80,7 @@ services:
       - backend
     volumes:
       - ./requirements/logs/mariadb_general.log:/var/log/mysql/general.log
+      - ./requirements/logs/mariadb_error.log:/var/log/mysql/error.log
       - db_volume:/var/lib/mysql
     environment:
       MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
