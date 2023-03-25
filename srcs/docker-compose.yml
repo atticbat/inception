@@ -39,8 +39,6 @@ services:
       - ./requirements/logs/nginx_access.log:/var/log/nginx/nginx_access.log
       - ./requirements/logs/nginx_error.log:/var/log/nginx/nginx_error.log
       - wp_volume:/var/www/html/wordpress
-    depends_on:
-      - wordpress
     restart: always
 
   wordpress:
@@ -81,4 +79,6 @@ services:
       WP_DATABASE_NAME: ${WP_DATABASE_NAME}
       WP_DATABASE_USR:  ${WP_DATABASE_USR}
       WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+    depends_on:
+      - nginx
     restart: always
