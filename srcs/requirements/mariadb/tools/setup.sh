@@ -1,6 +1,6 @@
 #!/bin/sh
 
-chown -R mysql:mysql /var/log/mysql
+# chown -R mysql:mysql /var/log/mysql
 
 if [ ! -d "/run/mysqld" ]; then
 	mkdir -p /run/mysqld
