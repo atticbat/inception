@@ -21,6 +21,5 @@ RUN wget https://github.com/wp-cli/wp-cli/releases/download/v2.7.1/wp-cli-2.7.1.
 RUN chmod +x wp-cli-2.7.1.phar
 RUN cp wp-cli-2.7.1.phar /usr/bin/wp
 WORKDIR /var/www/html/wordpress
-EXPOSE 9000
 
 ENTRYPOINT [ "/bin/sh", "/tmp/entrypoint.sh" ]
