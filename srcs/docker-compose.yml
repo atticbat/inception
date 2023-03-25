@@ -1,14 +1,9 @@
 # Networks
 
 networks:
-  backend:
+  inception:
     external: false
-    name: backend
-    driver: bridge
-
-  frontend:
-    external: false
-    name: frontend
+    name: inception
     driver: bridge
 
 # Volumes
@@ -37,7 +32,7 @@ services:
     container_name: nginx
     build: ./requirements/nginx
     networks:
-      - frontend 
+      - inception 
     ports:
       - "443:443"
     volumes:
@@ -52,8 +47,7 @@ services:
     container_name: wordpress
     build: ./requirements/wordpress
     networks:
-      - frontend
-      - backend
+      - inception
     volumes:
       - wp_volume:/var/www/html/wordpress
     environment:
@@ -77,7 +71,7 @@ services:
     container_name: mariadb
     build: ./requirements/mariadb
     networks:
-      - backend
+      - inception
     volumes:
       - ./requirements/logs/mariadb_general.log:/var/log/mysql/general.log
       - ./requirements/logs/mariadb_error.log:/var/log/mysql/error.log
