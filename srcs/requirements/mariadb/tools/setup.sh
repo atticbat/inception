@@ -18,7 +18,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 	sed -i "s/wpdatabasename/$WP_DATABASE_NAME/g" /tmp/init.sql
 	sed -i "s/wpdatabaseusr/$WP_DATABASE_USR/g" /tmp/init.sql
 	sed -i "s/wpdatabasepwd/$WP_DATABASE_PWD/g" /tmp/init.sql
-	/usr/bin/mysqld --user=root --bootstrap < /tmp/init.sql
+	/usr/bin/mysqld --user=mysql --bootstrap < /tmp/init.sql
 	rm /tmp/init.sql
 fi
 
