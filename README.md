@@ -5,10 +5,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/atticbat/inception">
-    <img src="logo.png" alt="Logo" width="256" height="256">
+    <img src="logo.png" alt="Logo" width="128" height="128">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">42 Inception</h3>
 
   <p align="center">
     An awesome README template to jumpstart your projects!
@@ -58,7 +58,9 @@
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
-
+  <a href="https://github.com/atticbat/inception">
+    <img src="inception_scr.png" alt="Logo" width="700" height="500">
+  </a>
 There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
 
 Here's why:
