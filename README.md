@@ -40,12 +40,9 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -56,123 +53,79 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<h2>
   <a href="https://github.com/atticbat/inception">
     <img src="inception_scr.png" alt="Logo" width="700" height="500">
   </a>
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+</h2>
+This project is about learning to use Docker and docker-compose.
+We are tasked with creating an NGINX, Wordpress, MariaDB stack without using the original docker images, and instead using the latest version of either Alpine or Debian.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+Here was my approach:
+* Look at the original Docker images and see how they manage their configurations and what daemons they run
+  * https://www.nginx.com/blog/deploying-nginx-nginx-plus-docker/
+  * https://github.com/MariaDB/mariadb-docker
+  * https://github.com/docker-library/wordpress
+* Create an NGINX container that serves only a static index.html page, using port 80
+  * https://www.docker.com/blog/how-to-use-the-official-nginx-docker-image/
+* Wordpress and MariaDB could only work when done together, so invest time into researching how they will interface together, this applies between NGINX and Wordpress aswell (While I don't have my resources ready now, I can explain a little how they interface later in the README file)
+* Initialise MariaDB, research into SQL syntax and how to create databases
+* Coordinate everything into a docker-compose file
+* Investigate into how docker networks work and create your network
+* Look into bind volumes
+* Put some time into creating scripts that will automate a few things for me in the local environment, among which:
+  * creating an .env file
+  * creating a ssl key and certificate
+  * creating a log directory and log files (for mariadb and nginx, wordpress is vocal enough)
+  * creating volume folders
+  * adding domain to hosts file
+* Utilise keys in ssl connection, only use port 443 in NGINX container from now on
+* Make hundreds of small tweaks and changes and eventually end up with a working product (to be continued)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* Docker
+* docker-compose
+* Make
+* bash
+* NGINX
+* Wordpress
+* MariaDB
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To run my program, use make in the root folder, this should create all dependencies
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+Prior to running please install the following:
+* Docker
+* docker-compose
+* Make
 
-### Installation
+Add yourself to the docker group
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Use make without sudo, otherwise the result will not be successful
+Upon receiving message "Wordpress has been started on port 9000" you may open your browser and type "https://khatlas.42.fr" and be redirected to "https://khatlas.42.fr/wordpress"
+Data will be retained in ~/data, if you already have a folder named wordpress or mariadb over there it will be treated as the volume and results may vary
+In order to remove retained data volumes run make fclean, a prompt will ask you if you would like to remove ~/data, do not type your password if you are using ~/data for anything and instead manually type: "sudo rm -rf ~/data/wordpress && rm -rf ~/data/mysql"
+Re-running after removing volumes will create a new volume
+Logging in to wp-admin looks as follows: go to url: https://khatlas.42.fr/wordpress/wp-admin and type your username and password. These will have been randomly generated and can be found in ./srcs/.env The passwords are composed of random alphanumeric characters every time you remove the .env file and re-run the Makefile
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+## What more did I want to implement
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+Creating a private ssl key and certificate locally and copying it is not secure, and I wanted to create a swarm cluster in which I could transfer secret encrypted files, I still want to do this but docker swarm is a bit of a rabbit hole
+In 42 we are unable to add a domain to the hosts file (for good reasons) and I wanted to see if I can make the website work if I port forward it to the local Mac environment
+I also wanted to do the bonus, though I was afraid that I would run into too many roadblocks, and time is precious
 
 
 <!-- LICENSE -->
@@ -187,9 +140,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Kewin Hatlas  - kewin.hatlas@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/atticbat/inception](https://github.com/atticbat/inception)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
