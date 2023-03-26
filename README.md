@@ -5,7 +5,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/atticbat/inception">
-    <img src="logo.png" alt="Logo" width="128" height="128">
+    <img src="logo.png" alt="Logo" width="256" height="256">
   </a>
 
   <h3 align="center">42 Inception</h3>
